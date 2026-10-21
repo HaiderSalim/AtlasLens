@@ -1,0 +1,40 @@
+appId: host.exp.exponent
+---
+# Launch Wizard from Hero CTA
+- tapOn:
+    id: "hero-start-reality-check"
+
+# Step 1: Destination Scouting
+- assertVisible: "Where are you scouting?"
+- tapOn: "Tokyo"
+- tapOn: "Continue to Next Step"
+
+# Step 2: Expenditure Ceiling & Currency Switching
+- assertVisible: "What is your monthly budget?"
+- assertVisible: "Currency Base"
+
+# Select Japanese Yen
+- tapOn: "JPY (¥)"
+- assertVisible: "¥.*"
+
+# Tap stepper button
+- tapOn: "\\+50k"
+
+# Advance to Step 3
+- tapOn: "Continue to Next Step"
+
+# Step 3: Lifestyle & Priorities
+- assertVisible: "Lifestyle & Amenities"
+- tapOn: "Coworking / Remote Hubs"
+- tapOn: "Strict 15-Min Walkability"
+- tapOn: "Continue to Next Step"
+
+# Step 4: Household & Logistics
+- assertVisible: "Household & Relocation Logistics"
+- tapOn: "Solo"
+- tapOn: "Public Transit"
+- tapOn: "Generate Reality Check"
+
+# Verification: Reality Check Dossier Opens
+- assertVisible: "Feasibility Assessment"
+- assertVisible: "Itemized Budget Bar Breakdown"

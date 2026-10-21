@@ -1,22 +1,22 @@
+import '../global.css';
 import { useFonts } from 'expo-font';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { StatusBar } from 'expo-status-bar';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { useTheme } from '@/store/useThemeStore';
+import { useOfflineVaultStore } from '@/store/useOfflineVaultStore';
 
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   anchor: '(tabs)',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -24,10 +24,15 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  const hydrateVault = useOfflineVaultStore((state) => state.hydrate);
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
+  useEffect(() => {
+    hydrateVault();
+  }, [hydrateVault]);
 
   useEffect(() => {
     if (loaded) {
@@ -43,13 +48,67 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const { isDark, colors } = useTheme();
+
+  const customNavigationTheme = {
+    ...(isDark ? DarkTheme : DefaultTheme),
+    colors: {
+      ...(isDark ? DarkTheme.colors : DefaultTheme.colors),
+      background: colors.bg,
+      card: colors.card,
+      text: colors.text,
+      border: colors.border,
+      primary: colors.accent,
+    },
+  };
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <ThemeProvider value={customNavigationTheme}>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colors.card,
+          },
+          headerTintColor: colors.text,
+          headerTitleStyle: {
+            fontWeight: '600',
+          },
+          contentStyle: {
+            backgroundColor: colors.bg,
+          },
+          animation: 'fade',
+        }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen
+          name="wizard/index"
+          options={{
+            title: 'Reality Check Intake',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="wizard/[step]"
+          options={{
+            title: 'Reality Check Intake',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="report/[id]"
+          options={{
+            title: 'Reality Check Dossier',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="modal"
+          options={{
+            presentation: 'modal',
+            title: 'About AtlasLens',
+            headerStyle: { backgroundColor: colors.card },
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );

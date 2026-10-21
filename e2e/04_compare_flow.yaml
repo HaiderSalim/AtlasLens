@@ -1,0 +1,20 @@
+appId: host.exp.exponent
+---
+# Switch to Compare Tab
+- tapOn: "Compare"
+- assertVisible: "City Comparator"
+- assertVisible: "Synchronized Delta Check"
+
+# Assert baseline cities
+- assertVisible: ".*CITY A \\(BASELINE\\).*"
+- assertVisible: ".*CITY B \\(COMPARISON\\).*"
+
+# Select Tokyo as City A
+- tapOn:
+    id: "city-a-Tokyo"
+- assertVisible: ".*Valencia is.*cheaper than Tokyo.*"
+
+# Select Lisbon as City A and Valencia as City B
+- tapOn:
+    id: "city-a-Lisbon"
+- assertVisible: ".*Valencia is.*cheaper than Lisbon.*"

@@ -1,40 +1,29 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '@/components/Themed';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Compass } from 'lucide-react-native';
+import { useTheme } from '@/store/useThemeStore';
 
 export default function NotFoundScreen() {
+  const { colors } = useTheme();
+
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text style={styles.title}>This screen doesn't exist.</Text>
+      <Stack.Screen options={{ title: 'Destination Not Found' }} />
+      <View style={{ flex: 1, backgroundColor: colors.bg }} className="items-center justify-center p-6">
+        <Compass size={44} color={colors.accent} />
+        <Text style={{ color: colors.text }} className="text-xl font-bold mt-4">Destination Not Found</Text>
+        <Text style={{ color: colors.textMuted }} className="text-xs text-center mt-2 max-w-xs leading-relaxed">
+          The requested route does not exist in the AtlasLens navigation tree.
+        </Text>
 
-        <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen!</Text>
+        <Link href="/" asChild>
+          <TouchableOpacity
+            style={{ backgroundColor: colors.accent }}
+            className="mt-6 py-3 px-6 rounded-xl shadow-sm">
+            <Text className="text-white font-bold text-sm">Return to Explore</Text>
+          </TouchableOpacity>
         </Link>
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
-});

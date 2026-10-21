@@ -1,0 +1,8 @@
+appId: host.exp.exponent
+---
+- runFlow: 01_explore_flow.yaml
+- runFlow: 02_wizard_intake_flow.yaml
+- runFlow: 03_report_dossier_flow.yaml
+- runFlow: 04_compare_flow.yaml
+- runFlow: 05_saved_vault_flow.yaml
+

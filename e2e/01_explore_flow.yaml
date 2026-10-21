@@ -1,0 +1,25 @@
+appId: host.exp.exponent
+---
+# Ensure on Explore screen
+- assertVisible: "Relocation Intelligence"
+- assertVisible: ".*VETTED BENCHMARK HUBS.*"
+
+# Test Quick Prompt Presets
+- assertVisible: "Nomad Capital"
+- assertVisible: "Clean & Safe"
+
+# Test Search Functionality
+- tapOn:
+    id: "search-input"
+- inputText: "Tokyo"
+- hideKeyboard
+- assertVisible: ".*Tokyo.*"
+
+# Verify Filtered Hub Card Details
+- assertVisible: ".*93% Safety.*"
+
+# Clear search input using clear button
+- tapOn:
+    id: "search-clear-button"
+- assertVisible: ".*VETTED BENCHMARK HUBS.*"
+- assertVisible: "Start Reality Check"

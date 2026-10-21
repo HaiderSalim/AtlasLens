@@ -1,0 +1,11 @@
+appId: host.exp.exponent
+---
+# Switch to Saved Tab
+- tapOn: "Saved"
+- assertVisible: "Offline Vault"
+- assertVisible: "Saved Dossiers"
+
+# Filter by Comfortable
+- tapOn: "Comfortable"
+- assertVisible: "Comfortable"
+

@@ -1,0 +1,23 @@
+appId: host.exp.exponent
+---
+# Assert Dossier Components
+- assertVisible: "Feasibility Assessment"
+- assertVisible: "Your Budget"
+- assertVisible: "Est. Total"
+- assertVisible: "Balance"
+
+# Itemized Budget Breakdown
+- assertVisible: "Rent & Housing"
+- assertVisible: "Groceries & Dining"
+
+# Scroll down to reveal warnings and action buttons
+- scroll
+
+# Bookmark to Offline Vault
+- tapOn: "Save Dossier Offline"
+- assertVisible: "Saved in Offline Vault"
+
+# Return to Explore Screen
+- tapOn:
+    id: "back-button"
+- assertVisible: "Relocation Intelligence"

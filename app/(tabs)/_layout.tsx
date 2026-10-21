@@ -1,68 +1,69 @@
-import { SymbolView } from 'expo-symbols';
-import { Link, Tabs } from 'expo-router';
-import { Platform, Pressable } from 'react-native';
-
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import React from 'react';
+import { Tabs } from 'expo-router';
+import { Compass, GitCompareArrows, Bookmark } from 'lucide-react-native';
+import { Platform } from 'react-native';
+import { useTheme } from '@/store/useThemeStore';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { colors, isDark } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.textSubtle,
+        tabBarStyle: {
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
+          borderTopWidth: 1,
+          height: Platform.OS === 'ios' ? 88 : 64,
+          paddingBottom: Platform.OS === 'ios' ? 28 : 10,
+          paddingTop: 8,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
+        headerStyle: {
+          backgroundColor: colors.card,
+          borderBottomColor: colors.border,
+          borderBottomWidth: 1,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTitleStyle: {
+          color: colors.text,
+          fontWeight: '700',
+          fontSize: 18,
+        },
+        headerShadowVisible: false,
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
-            />
-          ),
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable style={{ marginRight: 15 }}>
-                {({ pressed }) => (
-                  <SymbolView
-                    name={{ ios: 'info.circle', android: 'info', web: 'info' }}
-                    size={25}
-                    tintColor={Colors[colorScheme].text}
-                    style={{ opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: 'Explore',
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <Compass color={color} size={size || 22} />,
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="compare"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
-            />
-          ),
+          title: 'Compare',
+          headerTitle: 'City Comparator',
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <GitCompareArrows color={color} size={size || 22} />,
+        }}
+      />
+      <Tabs.Screen
+        name="saved"
+        options={{
+          title: 'Saved',
+          headerTitle: 'Offline Vault',
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <Bookmark color={color} size={size || 22} />,
         }}
       />
     </Tabs>
